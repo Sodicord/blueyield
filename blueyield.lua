@@ -1,9 +1,8 @@
-if IY_LOADED and not _G.IY_DEBUG == true then
-    -- error("Infinite Yield is already running!", 0)
-    return
+if BLUE_YIELD_LOADED and not _G.BLUE_YIELD_DEBUG == true then
+    return warn("Blue Yield is current running!")
 end
 
-pcall(function() getgenv().IY_LOADED = true end)
+pcall(function() getgenv().BLUE_YIELD_LOADED = true end)
 
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
@@ -12,12 +11,12 @@ Players = cloneref(game:GetService("Players"))
 if not game:IsLoaded() then
     local notLoaded = Instance.new("Message")
     notLoaded.Parent = COREGUI
-    notLoaded.Text = "Infinite Yield is waiting for the game to load"
+    notLoaded.Text = "Blue Yield is waiting for the game to load"
     game.Loaded:Wait()
     notLoaded:Destroy()
 end
 
-currentVersion = "6.2"
+currentVersion = "1.0"
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -207,7 +206,7 @@ Title.BorderSizePixel = 0
 Title.Size = UDim2.new(0, 250, 0, 20)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 18
-Title.Text = "Infinite Yield FE v" .. currentVersion
+Title.Text = "Blue Yield v" .. currentVersion
 
 do
 	local emoji = ({
@@ -3833,14 +3832,14 @@ selectJoin.MouseButton1Down:Connect(function()
 end)
 
 if not writefileExploit() then
-    notify("Saves", "Your exploit does not support read/write file. Your settings will not save.")
+    notify("Saves", "You're exploit does not support read/write file. Your settings will not save.")
 end
 
 function sendChatWebhook(player, message)
     if httprequest and vtype(logsWebhook, "string") then
         local log = HttpService:JSONEncode({
             content = message,
-            avatar_url = "https://files.catbox.moe/i968v2.jpg",
+            avatar_url = "https://files.catbox.moe/tugtkj.png",
             username = formatUsername(player),
             allowed_mentions = {parse = {}}
         })
@@ -3865,7 +3864,7 @@ end
 
 JoinLog = function(plr)
 	if jLogsEnabled == true then
-		CreateJoinLabel(plr,plr.UserId)
+		CreateJoinLabel(plr, plr.UserId)
 	end
 end
 
@@ -3876,29 +3875,40 @@ end
 SaveChatlogs.MouseButton1Down:Connect(function()
 	if writefileExploit() then
 		if #scroll_2:GetChildren() > 0 then
-			notify("Loading",'Hold on a sec')
+			notify('Loading', "Please wait while it load's.")
+
 			local placeName = CleanFileName(MarketplaceService:GetProductInfo(PlaceId).Name)
-			local writelogs = '-- Infinite Yield Chat logs for "'..placeName..'"\n'
+			local writelogs = "-- Blue Yield chat logs for '" .. placeName .. "'\n"
+
 			for _, child in pairs(scroll_2:GetChildren()) do
-				writelogs = writelogs..'\n'..child.Text
+				writelogs = writelogs .. '\n' .. child.Text
 			end
+
 			local writelogsFile = tostring(writelogs)
 			local fileext = 0
+
 			local function nameFile()
 				local file
-				pcall(function() file = readfile(placeName..' Chat Logs ('..fileext..').txt') end)
+
+				pcall(function()
+					file = readfile(placeName..' Chat Logs ('..fileext..').txt')
+				end)
+
 				if file then
 					fileext = fileext+1
+
 					nameFile()
 				else
 					writefileCooldown(placeName..' Chat Logs ('..fileext..').txt', writelogsFile)
 				end
 			end
+
 			nameFile()
-			notify('Chat Logs','Saved chat logs to the workspace folder within your exploit folder.')
+
+			notify('Chat Logs', 'Saved chat logs to the workspace folder within your exploit folder.')
 		end
 	else
-		notify('Chat Logs','Your exploit does not support write file. You cannot save chat logs.')
+		notify('Chat Logs', 'Your exploit does not support write file. You cannot save chat logs.')
 	end
 end)
 
@@ -4325,6 +4335,8 @@ CMDs = {}
 CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the Infinite Yield support server.'}
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Loads Roblox console'}
 CMDs[#CMDs + 1] = {NAME = 'oldconsole', DESC = 'Loads old Roblox console'}
+CMDs[#CMDs + 1] = {NAME = 'unc', DESC = 'Loads UNC test'}
+CMDs[#CMDs + 1] = {NAME = 'sunc', DESC = 'Loads sUNC test'}
 CMDs[#CMDs + 1] = {NAME = 'explorer / dex', DESC = 'Opens DEX by Moon'}
 CMDs[#CMDs + 1] = {NAME = 'olddex / odex', DESC = 'Opens Old DEX by Moon'}
 CMDs[#CMDs + 1] = {NAME = 'remotespy / rspy', DESC = 'Opens Simple Spy V3'}
@@ -7575,7 +7587,6 @@ addcmd('disable',{},function(args, speaker)
 	end
 end)
 
-
 local invisGUIS = {}
 addcmd('showguis',{},function(args, speaker)
 	for i,v in pairs(speaker:FindFirstChildWhichIsA("PlayerGui"):GetDescendants()) do
@@ -7597,7 +7608,7 @@ end)
 
 local hiddenGUIS = {}
 addcmd('hideguis',{},function(args, speaker)
-	for i,v in pairs(speaker:FindFirstChildWhichIsA("PlayerGui"):GetDescendants()) do
+	for i, v in pairs(speaker:FindFirstChildWhichIsA("PlayerGui"):GetDescendants()) do
 		if (v:IsA("Frame") or v:IsA("ImageLabel") or v:IsA("ScrollingFrame")) and v.Visible then
 			v.Visible = false
 			if not FindInTable(hiddenGUIS,v) then
@@ -7611,12 +7622,14 @@ addcmd('unhideguis',{},function(args, speaker)
 	for i,v in pairs(hiddenGUIS) do
 		v.Visible = true
 	end
+
 	hiddenGUIS = {}
 end)
 
 function deleteGuisAtPos()
 	pcall(function()
 		local guisAtPosition = Players.LocalPlayer.PlayerGui:GetGuiObjectsAtPosition(IYMouse.X, IYMouse.Y)
+
 		for _, gui in pairs(guisAtPosition) do
 			if gui.Visible == true then
 				gui:Destroy()
@@ -7626,6 +7639,7 @@ function deleteGuisAtPos()
 end
 
 local deleteGuiInput
+
 addcmd('guidelete',{},function(args, speaker)
 	deleteGuiInput = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
 		if not gameProcessedEvent then
@@ -7696,23 +7710,28 @@ addcmd("savegame", {"saveplace"}, function(args, speaker)
     end
 end)
 
-addcmd('clearerror',{'clearerrors'},function(args, speaker)
+addcmd('removekick', {'removekicks', 'clearerror', 'clearerrors'}, function(args, speaker)
 	GuiService:ClearError()
 end)
 
 addcmd('clientantikick',{'antikick'},function(args, speaker)
-	if not hookmetamethod then 
-		return notify('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
+	if not hookmetamethod then
+		warn("You're exploit is incompatible for clientantikick.")
+		return notify('Exploit is incompatible', "You're exploit is missing hookmetamethod, clientantikick require's this for it to work.")
 	end
+
 	local LocalPlayer = Players.LocalPlayer
+
 	local oldhmmi
 	local oldhmmnc
+
 	oldhmmi = hookmetamethod(game, "__index", function(self, method)
 		if self == LocalPlayer and method:lower() == "kick" then
 			return error("Expected ':' not '.' calling member function Kick", 2)
 		end
 		return oldhmmi(self, method)
 	end)
+
 	oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
 		if self == LocalPlayer and getnamecallmethod():lower() == "kick" then
 			return
@@ -7720,17 +7739,22 @@ addcmd('clientantikick',{'antikick'},function(args, speaker)
 		return oldhmmnc(self, ...)
 	end)
 
-	notify('Client Antikick','Client anti kick is now active (only effective on localscript kick)')
+	notify('Antikick for Client', "Antikick will also only work on any clientsided script's.")
 end)
 
 allow_rj = true
+
 addcmd('clientantiteleport',{'antiteleport'},function(args, speaker)
-	if not hookmetamethod then 
-		return notify('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
+	if not hookmetamethod then
+		warn("You're exploit is incompatible for clientantiteleport.")
+		return notify('Exploit is incompatible', "You're exploit is missing hookmetamethod, clientantiteleport require's this for it to work.")
 	end
+
 	local TeleportService = TeleportService
+
 	local oldhmmi
 	local oldhmmnc
+
 	oldhmmi = hookmetamethod(game, "__index", function(self, method)
 		if self == TeleportService then
 			if method:lower() == "teleport" then
@@ -7741,6 +7765,7 @@ addcmd('clientantiteleport',{'antiteleport'},function(args, speaker)
 		end
 		return oldhmmi(self, method)
 	end)
+
 	oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
 		if self == TeleportService and getnamecallmethod():lower() == "teleport" or getnamecallmethod() == "TeleportToPlaceInstance" then
 			return
@@ -7748,16 +7773,16 @@ addcmd('clientantiteleport',{'antiteleport'},function(args, speaker)
 		return oldhmmnc(self, ...)
 	end)
 
-	notify('Client AntiTP','Client anti teleport is now active (only effective on localscript teleport)')
+	notify('AntiTeleport for Client', "AntiTeleport will also only work on any clientsided script's.")
 end)
 
 addcmd('allowrejoin',{'allowrj'},function(args, speaker)
 	if args[1] and args[1] == 'false' then
 		allow_rj = false
-		notify('Client AntiTP','Allow rejoin set to false')
+		notify('AntiTeleport', 'Successfully set rejoin to false')
 	else
 		allow_rj = true
-		notify('Client AntiTP','Allow rejoin set to true')
+		notify('AntiTeleport', 'Successfully set rejoin to true')
 	end
 end)
 
@@ -10178,18 +10203,20 @@ addcmd("console", {}, function(args, speaker)
 end)
 
 addcmd('oldconsole',{},function(args, speaker)
-	-- Thanks wally!!
-	notify("Loading",'Hold on a sec')
+	notify('Loading', "Please wait while it load's.")
+
 	local _, str = pcall(function()
 		return game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/console.lua", true)
 	end)
 
 	local s, e = loadstring(str)
+
 	if typeof(s) ~= "function" then
 		return
 	end
 
 	local success, message = pcall(s)
+
 	if (not success) then
 		if printconsole then
 			printconsole(message)
@@ -10197,26 +10224,40 @@ addcmd('oldconsole',{},function(args, speaker)
 			printoutput(message)
 		end
 	end
+
 	wait(1)
+
 	notify('Console','Press F9 to open the console')
 end)
 
+addcmd('unc', {}, function(args, speaker)
+	notify('Loading', "Please wait while it load's.")
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/unified-naming-convention/NamingStandard/main/UNCCheckEnv.lua"))()
+end)
+
+addcmd('sunc', {}, function(args, speaker)
+	notify('Loading', "Please wait while it load's.")
+	loadstring(game:HttpGet("https://gitlab.com/sens3/nebunu/-/raw/main/HummingBird8's_sUNC_yes_i_moved_to_gitlab_because_my_github_acc_got_brickedd/sUNCm0m3n7.lua"))()
+end)
+
 addcmd('explorer', {'dex'}, function(args, speaker)
-	notify('Loading', 'Hold on a sec')
+	notify('Loading', "Please wait while it load's.")
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
 end)
 
 addcmd('olddex', {'odex'}, function(args, speaker)
-	notify('Loading old explorer', 'Hold on a sec')
+	notify('Loading', "Please wait while it load's.")
 
 	local getobjects = function(a)
 		local Objects = {}
+
 		if a then
 			local b = InsertService:LoadLocalAsset(a)
 			if b then 
 				table.insert(Objects, b) 
 			end
 		end
+
 		return Objects
 	end
 
@@ -10225,21 +10266,22 @@ addcmd('olddex', {'odex'}, function(args, speaker)
 
 	local function Load(Obj, Url)
 		local function GiveOwnGlobals(Func, Script)
-			-- Fix for this edit of dex being poorly made
-			-- I (Alex) would like to commemorate whoever added this dex in somehow finding the worst dex to ever exist
 			local Fenv, RealFenv, FenvMt = {}, {
 				script = Script,
 				getupvalue = function(a, b)
-					return nil -- force it to use globals
+					return nil
 				end,
-				getreg = function() -- It loops registry for some idiotic reason so stop it from doing that and just use a global
-					return {} -- force it to use globals
+
+				getreg = function()
+					return {}
 				end,
+
 				getprops = getprops or function(inst)
 					if getproperties then
 						local props = getproperties(inst)
 						if props[1] and gethiddenproperty then
 							local results = {}
+
 							for _,name in pairs(props) do
 								local success, res = pcall(gethiddenproperty, inst, name)
 								if success then
@@ -10256,9 +10298,11 @@ addcmd('olddex', {'odex'}, function(args, speaker)
 					return {}
 				end
 			}, {}
+
 			FenvMt.__index = function(a,b)
 				return RealFenv[b] == nil and getgenv()[b] or RealFenv[b]
 			end
+
 			FenvMt.__newindex = function(a, b, c)
 				if RealFenv[b] == nil then 
 					getgenv()[b] = c 
@@ -10266,8 +10310,11 @@ addcmd('olddex', {'odex'}, function(args, speaker)
 					RealFenv[b] = c 
 				end
 			end
+
 			setmetatable(Fenv, FenvMt)
+
 			pcall(setfenv, Func, Fenv)
+
 			return Func
 		end
 
@@ -10277,6 +10324,7 @@ addcmd('olddex', {'odex'}, function(args, speaker)
 					GiveOwnGlobals(loadstring(Script.Source,"="..Script:GetFullName()), Script)()
 				end)
 			end
+
 			table.foreach(Script:GetChildren(), LoadScripts)
 		end
 
@@ -10287,14 +10335,12 @@ addcmd('olddex', {'odex'}, function(args, speaker)
 end)
 
 addcmd('remotespy',{'rspy'},function(args, speaker)
-	notify("Loading",'Hold on a sec')
-	-- Full credit to exx, creator of SimpleSpy
-	-- also thanks to NoobSploit for fixing
+	notify('Loading', "Please wait while it load's.")
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/SimpleSpyV3/main.lua"))()
 end)
 
 addcmd('audiologger',{'alogger'},function(args, speaker)
-	notify("Loading",'Hold on a sec')
+	notify('Loading', "Please wait while it load's.")
 	loadstring(game:HttpGet(('https://raw.githubusercontent.com/infyiff/backup/main/audiologger.lua'),true))()
 end)
 
@@ -12760,13 +12806,13 @@ IYMouse.Move:Connect(checkTT)
 
 task.spawn(function()
 	local success, latestVersionInfo = pcall(function() 
-		local versionJson = game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/version')
+		local versionJson = game:HttpGet('https://raw.githubusercontent.com/sodicord/blueyield/master/version')
 		return HttpService:JSONDecode(versionJson)
 	end)
 
 	if success then
 		if currentVersion ~= latestVersionInfo.Version then
-			notify('Outdated','Get the new version at infyiff.github.io')
+			notify('Outdated', 'Blue Yield is currently outdated. You can still try without the outdate.')
 		end
 
 		if latestVersionInfo.Announcement and latestVersionInfo.Announcement ~= '' then
@@ -12855,18 +12901,28 @@ task.spawn(function()
 end)
 
 task.spawn(function()
+	local OutInfo = TweenInfo.new(1.6809, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+
 	wait()
+
 	Credits:TweenPosition(UDim2.new(0, 0, 0.9, 0), "Out", "Quart", 0.2)
 	Logo:TweenSizeAndPosition(UDim2.new(0, 175, 0, 175), UDim2.new(0, 37, 0, 45), "Out", "Quart", 0.3)
+
 	wait(1)
-	local OutInfo = TweenInfo.new(1.6809, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+	
 	TweenService:Create(Logo, OutInfo, {ImageTransparency = 1}):Play()
 	TweenService:Create(IntroBackground, OutInfo, {BackgroundTransparency = 1}):Play()
 	Credits:TweenPosition(UDim2.new(0, 0, 0.9, 30), "Out", "Quart", 0.2)
+
 	wait(0.2)
+
 	Logo:Destroy()
 	Credits:Destroy()
 	IntroBackground:Destroy()
+
 	minimizeHolder()
-	if IsOnMobile then notify("Unstable Device", "On mobile, Infinite Yield may have issues or features that are not functioning correctly.") end
+
+	if IsOnMobile then
+		notify("Device is unstable", "On any mobile device, Blue Yield might have feature's or issue's. There might be some bug's.")
+	end
 end)
