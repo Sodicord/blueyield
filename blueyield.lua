@@ -588,7 +588,7 @@ Description.TextColor3 = Color3.new(1, 1, 1)
 Description.TextTransparency = 0.1
 Description.TextWrapped = true
 Description.ZIndex = 10
-table.insert(text1,Description)
+table.insert(text1, Description)
 
 IntroBackground.Name = "IntroBackground"
 IntroBackground.Parent = Holder
@@ -605,7 +605,7 @@ Logo.BackgroundTransparency = 1
 Logo.BorderSizePixel = 0
 Logo.Position = UDim2.new(0, 125, 0, 127)
 Logo.Size = UDim2.new(0, 10, 0, 10)
-Logo.Image = "rbxassetid://1352543873"
+Logo.Image = "rbxassetid://137684692167296"
 Logo.ImageTransparency = 0
 Logo.ZIndex = 10
 
@@ -12806,7 +12806,7 @@ IYMouse.Move:Connect(checkTT)
 
 task.spawn(function()
 	local success, latestVersionInfo = pcall(function() 
-		local versionJson = game:HttpGet('https://raw.githubusercontent.com/sodicord/blueyield/master/version')
+		local versionJson = game:HttpGet('https://raw.githubusercontent.com/Sodicord/blueyield/master/version')
 		return HttpService:JSONDecode(versionJson)
 	end)
 
