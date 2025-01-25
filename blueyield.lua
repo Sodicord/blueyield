@@ -4335,6 +4335,8 @@ end
 
 CMDs = {}
 CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the Blue Yield discord server.'}
+CMDs[#CMDs + 1] = {NAME = 'makefile [file] [text]', DESC = 'Creates an file with the content of [text].'}
+CMDs[#CMDs + 1] = {NAME = 'readfile [file]', DESC = 'Reads the file and notifys the text.'}
 CMDs[#CMDs + 1] = {NAME = 'printconsole [text]', DESC = 'Prints to the console using rconsoleprint.'}
 CMDs[#CMDs + 1] = {NAME = 'inputconsole [text]', DESC = 'Input to the console using rconsoleinput.'}
 CMDs[#CMDs + 1] = {NAME = 'clearconsole', DESC = 'Clears to the console using rconsoleclear.'}
@@ -6445,6 +6447,22 @@ addcmd('destroyconsole', {}, function(args, speaker)
 		rconsoledestroy()
 	else
 		notify('Incompatible Executor', "You're executor is missing RCONSOLEDESTROY.")
+	end
+end)
+
+addcmd('makefile', {}, function(args, speaker)
+	if writefile then
+		writefile(args[1], args[2])
+	else
+		notify('Incompatible Exploit', "You're exploit doesn't support writefile.")
+	end
+end)
+
+addcmd('readfile', {}, function(args, speaker)
+	if readfile then
+		notify(readfile(args[1]))
+	else
+		notify('Incompatible Exploit', "You're exploit doesn't support readfile.")
 	end
 end)
 
