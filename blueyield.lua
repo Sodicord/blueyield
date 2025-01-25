@@ -607,7 +607,7 @@ Logo.BackgroundTransparency = 1
 Logo.BorderSizePixel = 0
 Logo.Position = UDim2.new(0, 125, 0, 127)
 Logo.Size = UDim2.new(0, 10, 0, 10)
-Logo.Image = "http://www.roblox.com/asset/?id=137684692167296"
+Logo.Image = game:HttpGet("https://files.catbox.moe/tugtkj.png")
 Logo.ImageTransparency = 0
 Logo.ZIndex = 10
 
@@ -6333,7 +6333,7 @@ local TeleportCheck = false
 Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if KeepInfYield and (not TeleportCheck) and queueteleport then
 		TeleportCheck = true
-		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()")
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Sodicord/blueyield/master/blueyield.lua'))()")
 	end
 end)
 
