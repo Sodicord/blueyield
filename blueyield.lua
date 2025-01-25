@@ -4335,6 +4335,7 @@ CMDs = {}
 CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the Blue Yield discord server.'}
 CMDs[#CMDs + 1] = {NAME = 'printconsole', DESC = 'Prints to the console using rconsoleprint.'}
 CMDs[#CMDs + 1] = {NAME = 'inputconsole', DESC = 'Input to the console using rconsoleinput.'}
+CMDs[#CMDs + 1] = {NAME = 'clearconsole', DESC = 'Clears to the console using rconsoleclear.'}
 CMDs[#CMDs + 1] = {NAME = 'titleconsole', DESC = 'Titles the console using rconsolesettitle.'}
 CMDs[#CMDs + 1] = {NAME = 'createconsole', DESC = 'Creates the console using rconsolecreate.'}
 CMDs[#CMDs + 1] = {NAME = 'destroyconsole', DESC = 'Destroys the console using rconsoledestroy.'}
@@ -6410,6 +6411,14 @@ addcmd('inputconsole', {}, function(args, speaker)
 		rconsoleinput(args[1])
 	else
 		notify('Incompatible Executor', "You're executor is missing RCONSOLEINPUT.")
+	end
+end)
+
+addcmd('clearconsole', {}, function(args, speaker)
+	if rconsoleclear then
+		rconsoleclear()
+	else
+		notify('Incompatible Executor', "You're executor is missing RCONSOLECLEAR.")
 	end
 end)
 
