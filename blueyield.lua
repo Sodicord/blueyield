@@ -4332,7 +4332,12 @@ function autoComplete(str,curText)
 end
 
 CMDs = {}
-CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the Infinite Yield support server.'}
+CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the Blue Yield discord server.'}
+CMDs[#CMDs + 1] = {NAME = 'printconsole', DESC = 'Prints to the console using rconsoleprint.'}
+CMDs[#CMDs + 1] = {NAME = 'inputconsole', DESC = 'Input to the console using rconsoleinput.'}
+CMDs[#CMDs + 1] = {NAME = 'titleconsole', DESC = 'Titles the console using rconsolesettitle.'}
+CMDs[#CMDs + 1] = {NAME = 'createconsole', DESC = 'Creates the console using rconsolecreate.'}
+CMDs[#CMDs + 1] = {NAME = 'destroyconsole', DESC = 'Destroys the console using rconsoledestroy.'}
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Loads Roblox console'}
 CMDs[#CMDs + 1] = {NAME = 'oldconsole', DESC = 'Loads old Roblox console'}
 CMDs[#CMDs + 1] = {NAME = 'unc', DESC = 'Loads UNC test'}
