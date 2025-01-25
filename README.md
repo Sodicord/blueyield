@@ -1,5 +1,5 @@
 ![](https://files.catbox.moe/tugtkj.png)
-<h1 align="center">Blue Yield</h1>
+<h1 align="left">Blue Yield</h1>
 
 An fork of Infinite yield that is better!
 
