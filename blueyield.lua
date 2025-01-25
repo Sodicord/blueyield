@@ -12883,7 +12883,7 @@ IYMouse.Move:Connect(checkTT)
 
 task.spawn(function()
 	local success, latestVersionInfo = pcall(function() 
-		local versionJson = game:HttpGet('https://raw.githubusercontent.com/Sodicord/blueyield/master/version')
+		local versionJson = game:HttpGet('https://raw.githubusercontent.com/Sodicord/blueyield/master/data')
 		return HttpService:JSONDecode(versionJson)
 	end)
 
