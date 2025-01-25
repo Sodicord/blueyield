@@ -6452,7 +6452,8 @@ end)
 
 addcmd('makefile', {}, function(args, speaker)
 	if writefile then
-		writefile(args[1], args[2])
+		local content = table.concat(args, " ", 2)
+        writefile(args[1], content)
 	else
 		notify('Incompatible Exploit', "You're exploit doesn't support writefile.")
 	end
