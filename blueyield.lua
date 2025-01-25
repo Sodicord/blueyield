@@ -6392,6 +6392,46 @@ addcmd('discord', {'support', 'help'}, function(args, speaker)
 	end
 end)
 
+addcmd('printconsole', {}, function(args, speaker)
+	if rconsoleprint then
+		rconsoleprint(args[1])
+	else
+		notify('Incompatible Executor', "You're executor is missing RCONSOLEPRINT.")
+	end
+end)
+
+addcmd('inputconsole', {}, function(args, speaker)
+	if rconsoleinput then
+		rconsoleinput(args[1])
+	else
+		notify('Incompatible Executor', "You're executor is missing RCONSOLEINPUT.")
+	end
+end)
+
+addcmd('titleconsole', {}, function(args, speaker)
+	if rconsolesettitle then
+		rconsolesettitle(args[1])
+	else
+		notify('Incompatible Executor', "You're executor is missing RCONSOLESETTITLE.")
+	end
+end)
+
+addcmd('createconsole', {}, function(args, speaker)
+	if rconsolecreate then
+		rconsolecreate()
+	else
+		notify('Incompatible Executor', "You're executor is missing RCONSOLECREATE.")
+	end
+end)
+
+addcmd('destroyconsole', {}, function(args, speaker)
+	if rconsoledestroy then
+		rconsoledestroy()
+	else
+		notify('Incompatible Executor', "You're executor is missing RCONSOLEDESTROY.")
+	end
+end)
+
 addcmd('keepiy', {}, function(args, speaker)
 	if queueteleport then
 		KeepInfYield = true
