@@ -1,12 +1,15 @@
 if BLUE_YIELD_LOADED and not _G.BLUE_YIELD_DEBUG == true then
-    return warn("Blue Yield is current running!")
+    return warn("Blue Yield is currently running!")
 end
 
 pcall(function()
 	getgenv().BLUE_YIELD_LOADED = true
 end)
 
-local cloneref = cloneref or function(o) return o end
+local cloneref = cloneref or function(original)
+	return original
+end
+
 COREGUI = cloneref(game:GetService("CoreGui"))
 Players = cloneref(game:GetService("Players"))
 
@@ -1374,7 +1377,7 @@ About.Position = UDim2.new(0, 17, 0, 10)
 About.Size = UDim2.new(0, 187, 0, 49)
 About.Font = Enum.Font.SourceSans
 About.TextSize = 14
-About.Text = "Plugins are .iy files and should be located in the 'workspace' folder of your exploit."
+About.Text = "Plugins are .by files and should be located in the 'workspace' folder of your exploit."
 About.TextColor3 = Color3.fromRGB(255, 255, 255)
 About.TextWrapped = true
 About.TextYAlignment = Enum.TextYAlignment.Top
@@ -2935,7 +2938,7 @@ local loadedEventData = nil
 local jsonAttempts = 0
 function saves()
     if writefileExploit() and readfileExploit() and jsonAttempts < 10 then
-        local readSuccess, out = readfile("IY_FE.iy", true)
+        local readSuccess, out = readfile("blueyield_fe.by", true)
         if readSuccess then
             if out ~= nil and tostring(out):gsub("%s", "") ~= "" then
                 local success, response = pcall(function()
@@ -2964,14 +2967,14 @@ function saves()
                     jsonAttempts = jsonAttempts + 1
                     warn("Save Json Error:", response)
                     warn("Overwriting Save File")
-                    writefile("IY_FE.iy", defaults, true)
+                    writefile("blueyield_fe.by", defaults, true)
                     wait()
                     saves()
                 end
             else
-                writefile("IY_FE.iy", defaults, true)
+                writefile("blueyield_fe.by", defaults, true)
                 wait()
-                local dReadSuccess, dOut = readfile("IY_FE.iy", true)
+                local dReadSuccess, dOut = readfile("blueyield_fe.by", true)
                 if dReadSuccess and dOut ~= nil and tostring(dOut):gsub("%s", "") ~= "" then
                     saves()
                 else
@@ -2981,9 +2984,9 @@ function saves()
                 end
             end
         else
-            writefile("IY_FE.iy", defaults, true)
+            writefile("blueyield_fe.by", defaults, true)
             wait()
-            local dReadSuccess, dOut = readfile("IY_FE.iy", true)
+            local dReadSuccess, dOut = readfile("blueyield_fe.by", true)
             if dReadSuccess and dOut ~= nil and tostring(dOut):gsub("%s", "") ~= "" then
                 saves()
             else
@@ -3028,7 +3031,7 @@ function updatesaves()
 			currentScroll = {currentScroll.R,currentScroll.G,currentScroll.B};
 			eventBinds = eventEditor.SaveData()
 		}
-		writefileCooldown("IY_FE.iy", HttpService:JSONEncode(update))
+		writefileCooldown("blueyield_fe.by", HttpService:JSONEncode(update))
 	end
 end
 
@@ -5003,7 +5006,7 @@ function execCmd(cmdStr,speaker,store)
 				if infTimes then
 					while lastBreakTime < cmdStartTime do
 						local success,err = pcall(cmd.FUNC,args, speaker)
-						if not success and _G.IY_DEBUG then
+						if not success and _G.BLUE_YIELD_DEBUG then
 							warn("Command Error:", cmdName, err)
 						end
 						wait(cmdDelay)
@@ -5014,7 +5017,7 @@ function execCmd(cmdStr,speaker,store)
 						local success,err = pcall(function()
 							cmd.FUNC(args, speaker)
 						end)
-						if not success and _G.IY_DEBUG then
+						if not success and _G.BLUE_YIELD_DEBUG then
 							warn("Command Error:", cmdName, err)
 						end
 						if cmdDelay ~= 0 then wait(cmdDelay) end
@@ -6135,17 +6138,17 @@ end)
 PluginsGUI = PluginEditor.background
 
 function addPlugin(name)
-	if name:lower() == 'plugin file name' or name:lower() == 'iy_fe.iy' or name == 'iy_fe' then
+	if name:lower() == 'plugin file name' or name:lower() == 'blueyield_fe.by' or name == 'blueyield_fe' then
 		notify('Plugin Error','Please enter a valid plugin')
 	else
 		local file
 		local fileName
-		if name:sub(-3) == '.iy' then
+		if name:sub(-3) == '.by' then
 			pcall(function() file = readfile(name) end)
 			fileName = name
 		else
-			pcall(function() file = readfile(name..'.iy') end)
-			fileName = name..'.iy'
+			pcall(function() file = readfile(name..'.by') end)
+			fileName = name..'.by'
 		end
 		if file then
 			if not FindInTable(PluginsTable, fileName) then
@@ -6163,8 +6166,8 @@ function addPlugin(name)
 end
 
 function deletePlugin(name)
-	local pName = name..'.iy'
-	if name:sub(-3) == '.iy' then
+	local pName = name..'.by'
+	if name:sub(-3) == '.by' then
 		pName = name
 	end
 	for i = #cmds,1,-1 do
@@ -12691,15 +12694,15 @@ end)
 
 addcmd("addallplugins", {"loadallplugins"}, function(args, speaker)
     if not listfiles or not isfolder then
-        notify("Incompatible Exploit", "Your exploit does not support this command (missing listfiles/isfolder)")
+        notify("Incompatible Exploit", "You're exploit does not support this command (missing listfiles/isfolder)")
         return
     end
 
     for _, filePath in ipairs(listfiles("")) do
-        local fileName = filePath:match("([^/\\]+%.iy)$")
+        local fileName = filePath:match("([^/\\]+%.by)$")
 
         if fileName and
-            fileName:lower() ~= "iy_fe.iy" and
+            fileName:lower() ~= "blueyield_fe.by" and
             not isfolder(fileName) and
             not table.find(PluginsTable, fileName)
         then
