@@ -2,7 +2,9 @@ if BLUE_YIELD_LOADED and not _G.BLUE_YIELD_DEBUG == true then
     return warn("Blue Yield is current running!")
 end
 
-pcall(function() getgenv().BLUE_YIELD_LOADED = true end)
+pcall(function()
+	getgenv().BLUE_YIELD_LOADED = true
+end)
 
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
